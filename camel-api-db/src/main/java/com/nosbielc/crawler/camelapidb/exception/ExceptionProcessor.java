@@ -17,6 +17,7 @@ public class ExceptionProcessor implements Processor {
         System.out.println("Endpoint com falha: " + failedEndoint);
 
         exchange.getIn().setBody("Exceção aconteceu na rota.");
+
     }
 
 }

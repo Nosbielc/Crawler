@@ -61,7 +61,7 @@ public class Router extends RouteBuilder {
 
         // tag::edgeRoute[]
             from("{{uri.input}}")
-                    .log("Recebendo o Arquivo")
+                    .log("Recebendo o Arquivo" + simple("${file:name}"))
 
                     // Envie o arquivo para o terminal 'process'
                     .to("direct:process");

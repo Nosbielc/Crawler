@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@RepositoryRestResource(collectionResourceRel = "transacao", path = "transacao")
+@RepositoryRestResource(collectionResourceRel = "transacoes", itemResourceRel = "transacao", path = "transacao")
 public interface TransacaoDataRestRepository extends PagingAndSortingRepository<Transacao, Long> {
 
     List<Transacao> findByIdOrderByIdAsc(@Param("id") Long id);

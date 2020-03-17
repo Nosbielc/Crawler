@@ -18,8 +18,8 @@ public class Router extends RouteBuilder {
                 .id("RouterConsumerRest::Internal")
                 .description("Consumer de Rest")
                 .setHeader(Exchange.HTTP_METHOD, constant("GET"))
-                .setHeader(Exchange.HTTP_URI, simple("http://localhost:8089/api/transacao"))
-                .to("http4:localhost:8089/api/transacao").convertBodyTo(String.class)
+                .setHeader(Exchange.HTTP_URI, simple("http://localhost:8089/api/transacao/5"))
+                .to("http4:localhost:8089/api/transacao/5").convertBodyTo(String.class)
                 .log("Transações Obtidas - ${body}")
                 .process(new Processor() {
                     @Override

@@ -51,6 +51,11 @@
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jackson-starter</artifactId>
         </dependency>
+        <!-- Bean Validation Component https://camel.apache.org/bean-validation.html -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bean-validator</artifactId>
+        </dependency>
 
         <!-- For database -->
         <dependency>

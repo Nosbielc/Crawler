@@ -1,5 +1,6 @@
 package com.nosbielc.crawler.camelvisitcountactivemq;
 
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ public class Router extends RouteBuilder {
 
                 // Registre o timestamp da visita em um cabeçalho
                 .setHeader("RequestDate", simple("${date:now}"))
-                .log("Visita web recebida, envio de visita a fila")
+                .log(LoggingLevel.DEBUG,"Visita web recebida, envio de visita a fila")
 
                 // Enviar a mensagem para uma fila do ActiveMQ
                 .to("activemq:queue:ACCESS_LOG")

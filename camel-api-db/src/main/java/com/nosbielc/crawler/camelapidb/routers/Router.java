@@ -1,9 +1,12 @@
 package com.nosbielc.crawler.camelapidb.routers;
 
 import com.nosbielc.crawler.camelapidb.exception.ExceptionProcessor;
+import com.nosbielc.crawler.camelapidb.model.PojoParaValidacao;
 import com.nosbielc.crawler.camelapidb.model.Transacao;
 import com.nosbielc.crawler.camelapidb.processor.OutputProcessor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonDataFormat;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,22 +47,30 @@ public class Router extends RouteBuilder {
                 .enableCORS(true)
 
                 .get("/{transacaoId}").id("getTransacao")
-                .description("Retorna uma Transação") // <2>  operação que espera uma transacaoId na URL
-                .outType(Transacao.class)
-                .route()
-                .to("sql:SELECT id, descricao, tipo_transacao, vlr_transacao,"
-                        + " dt_transacao, is_ativo, conta FROM transacao"
-                        + " WHERE id = :#transacaoId") // <3> Usando o componente SQL para buscar uma transacao do banco de dados
-                .bean(OutputProcessor.class) // <4> Bean usado para Output da requisição
+                    .description("Retorna uma Transação") // <2>  operação que espera uma transacaoId na URL
+                    .outType(Transacao.class)
+                    .route()
+                    .to("sql:SELECT id, descricao, tipo_transacao, vlr_transacao,"
+                            + " dt_transacao, is_ativo, conta FROM transacao"
+                            + " WHERE id = :#transacaoId") // <3> Usando o componente SQL para buscar uma transacao do banco de dados
+                    .bean(OutputProcessor.class) // <4> Bean usado para Output da requisição
                 .endRest()
 
                 .get().id("getAllTransacoes")
-                .description("Lista todas as Transacoes") // <5> Operação que retorna todas as transações.
-                .outType(Transacao[].class)
-                .route()
-                .to("sql:SELECT * FROM transacao"
-                        + " ORDER BY id ASC")
-                .bean(OutputProcessor.class)
+                    .description("Lista todas as Transacoes") // <5> Operação que retorna todas as transações.
+                    .outType(Transacao[].class)
+                    .route()
+                    .to("sql:SELECT * FROM transacao"
+                            + " ORDER BY id ASC")
+                    .bean(OutputProcessor.class)
+                .endRest()
+
+                .post("/getValidacaoBean")
+                    .id("getValidacaoBean")
+                    .type(String.class)
+                    .description("Metodo para validacao de bean usando o bean balidator")
+                        .route()
+                            .to("direct:pojoValida")
                 .endRest();
         // end::route[]
 
